@@ -1,5 +1,12 @@
 #!/usr/bin/ruby
 
+LETTERS = {
+  :front => %w{ g t z m t v n r },
+  :right => %w{ m n k s n o h l },
+  :back => %w{ f b i h a e h s },
+  :left => %w{ y t c b g x b a }
+}
+
 PAGES = [
   { :back => "P", :front => [
     %w{ f f i l r e w o },
@@ -119,14 +126,25 @@ def show
   end
 end
 
+def riddle
+  puts "WHAT IS MY NAME?"
+  puts "HINT: MY FIRST HALF IS WHAT IT IS, MY SECOND HALF IS HALF OF WHAT MADE IT."
+  puts
+  LETTERS.each do |key, value|
+    puts "#{key.to_s.ljust(5)}: #{value.map(&:capitalize).join(' ')}"
+  end
+end
+
 #counts
 ex = []
 ex << :show if ARGV.include? "--pages"
 ex << :counts if ARGV.include? "--counts"
+ex << :riddle if ARGV.include? "--riddle"
 ex.each { |m| send(m) }
 
 if ex == []
-  puts "USAGE: fez.rb <--counts> <--pages>"
+  puts "USAGE: fez.rb <--counts> <--pages> <--riddle>"
   puts "counts: Show count of all letters in ancient tome"
   puts "pages: Show all pages in ancient tome translated"
+  puts "riddle: Show the name riddle"
 end
