@@ -120,7 +120,7 @@ def show
     8.times do |n|
       letters = ""
       7.times do |m|
-        letters += " " + (page[:front][6-m][n].nil? ? " " : page[:front][6-m][n].capitalize)
+        letters += " " + (page[:front][6-m][n].nil? ? " " : page[:front][6-m][n].capitalize.send(page[:front][6-m][n].capitalize == page[:back] ? :light_green : :magenta))
       end
       puts letters
     end
