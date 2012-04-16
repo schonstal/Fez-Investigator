@@ -131,7 +131,7 @@ def riddle
   puts "HINT: MY FIRST HALF IS WHAT IT IS, MY SECOND HALF IS HALF OF WHAT MADE IT."
   puts
   LETTERS.each do |key, value|
-    puts "#{key.to_s.ljust(5).capitalize}: #{value.map(&:capitalize).join(' ')}"
+    puts "#{key.to_s.ljust(5).capitalize}: #{value.map(&:capitalize).join(' ')} (Random: #{value.sort_by { rand }.map(&:capitalize).join(' ')})"
   end
 end
 
