@@ -1,4 +1,4 @@
-#!/usr/env/ruby
+#!/usr/bin/ruby
 
 PAGES = [
   { :back => "P", :front => [
