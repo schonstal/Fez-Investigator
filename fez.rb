@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
 
+require 'colorize'
+
 LETTERS = {
   :front => %w{ g t z m t v n r },
   :right => %w{ m n k s n o h l },
@@ -88,7 +90,7 @@ def counts
   ("a".."z").each { |letter| totals[letter] = 0 }
 
   PAGES.each_with_index do |page, index|
-    output = "Page #{index+1} (#{page[:back]}): " 
+    output = "Page #{index+1} (#{page[:back].light_green}): " 
     sums = {}
     ("a".."z").each { |letter| sums[letter] = 0 }
     page[:front].each do |row|
@@ -98,7 +100,7 @@ def counts
       end
     end
     sums.keys.sort.each do |letter|
-      output += "#{sums[letter].to_s.rjust(2)} "
+      output += "#{sums[letter].to_s.rjust(2)} ".send(letter.capitalize == page[:back] ? :light_green : (index % 2 > 0 ? "light_" : "")+'magenta')
     end
     puts output
   end
