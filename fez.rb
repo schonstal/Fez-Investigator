@@ -1,7 +1,27 @@
 #!/usr/bin/ruby
+require 'colorize' #gem install colorize
 
-require 'colorize'
+#Josh Schonstal's Fez decoder hack
+#Most of this will probably mislead you and spoil you, use with great caution
+#I haven't figured it out yet...
 
+#This is an array extension I found at: http://snippets.dzone.com/posts/show/3332
+#Author: Paul Battley
+class Array
+    def permute(prefixed=[])
+        if (length < 2)
+            # there are no elements left to permute
+            yield(prefixed + self)
+        else
+            # recursively permute the remaining elements
+            each_with_index do |e, i|
+                (self[0,i]+self[(i+1)..-1]).permute(prefixed+[e]) { |a| yield a }
+            end
+        end
+    end
+end
+
+#Letters from the riddle
 LETTERS = {
   :front => %w{ g t z m t v n r },
   :right => %w{ m n k s n o h l },
@@ -9,6 +29,7 @@ LETTERS = {
   :left => %w{ y t c b g x b a }
 }
 
+#Pages in the ancient tome
 PAGES = [
   { :back => "P", :front => [
     %w{ f f i l r e w o },
@@ -115,10 +136,20 @@ def counts
 end
 
 def concatenate
+  if @random
+    PAGES.permute do |pages|
+      concatenate_pages(pages)
+    end
+  else
+    concatenate_pages(PAGES)
+  end
+end
+
+def concatenate_pages(pages)
   letters = ""
   8.times do |x|
     7.times do |y|
-      PAGES.each { |page| letters += page[:front][y][x].to_s }
+      pages.each { |page| letters += page[:front][y][x].to_s }
     end
   end
   puts letters
@@ -178,3 +209,4 @@ if ex == []
   puts "random: randomize"
   puts "cat: concatenate pages vertically"
 end
+
