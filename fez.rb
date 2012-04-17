@@ -122,6 +122,9 @@ def show
       7.times do |m|
         letters += " " + (page[:front][6-m][n].nil? ? " " : page[:front][6-m][n].capitalize.send(page[:front][6-m][n].capitalize == page[:back] ? :light_green : :magenta))
       end
+      if @caesar
+        letters = caesar_cipher(letters, 5)
+      end
       puts letters
     end
     puts
@@ -134,8 +137,14 @@ def riddle
   puts
   LETTERS.each do |key, value|
     puts "#{key.to_s.ljust(5).capitalize}: #{value.map(&:capitalize).join(' ')}" +
-      " (Random: #{value.sort_by { rand }.map(&:capitalize).join(' ')})"
+      (@random ? " (Random: #{value.sort_by { rand }.map(&:capitalize).join(' ')})" : "")
   end
+end
+
+def caesar_cipher(text,n)
+  alpha = ('A'..'Z').to_a
+  n.times { alpha.push(alpha.shift) }
+  text.tr('A-Z', alpha.join)
 end
 
 #counts
@@ -143,6 +152,10 @@ ex = []
 ex << :show if ARGV.include? "--pages"
 ex << :counts if ARGV.include? "--counts"
 ex << :riddle if ARGV.include? "--riddle"
+
+@caesar = true if ARGV.include? "--caesar"
+@random = true if ARGV.include? "--random"
+
 ex.each { |m| send(m) }
 
 if ex == []
