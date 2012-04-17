@@ -159,8 +159,10 @@ ex << :riddle if ARGV.include? "--riddle"
 ex.each { |m| send(m) }
 
 if ex == []
-  puts "USAGE: fez.rb <--counts> <--pages> <--riddle>"
+  puts "USAGE: fez.rb <--counts> <--pages> <--riddle> <--caesar> <--random>"
   puts "counts: Show count of all letters in ancient tome"
   puts "pages: Show all pages in ancient tome translated"
   puts "riddle: Show the name riddle"
+  puts "caesar: apply caesar cipher"
+  puts "random: randomize"
 end
