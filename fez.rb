@@ -114,6 +114,16 @@ def counts
   puts
 end
 
+def concatenate
+  letters = ""
+  8.times do |x|
+    7.times do |y|
+      PAGES.each { |page| letters += page[:front][y][x].to_s }
+    end
+  end
+  puts letters
+end
+
 def show
   PAGES.each_with_index do |page,index|
     puts "#{index + 1} (#{page[:back]}): "
@@ -152,6 +162,7 @@ ex = []
 ex << :show if ARGV.include? "--pages"
 ex << :counts if ARGV.include? "--counts"
 ex << :riddle if ARGV.include? "--riddle"
+ex << :concatenate if ARGV.include? "--cat"
 
 @caesar = true if ARGV.include? "--caesar"
 @random = true if ARGV.include? "--random"
@@ -159,10 +170,11 @@ ex << :riddle if ARGV.include? "--riddle"
 ex.each { |m| send(m) }
 
 if ex == []
-  puts "USAGE: fez.rb <--counts> <--pages> <--riddle> <--caesar> <--random>"
+  puts "USAGE: fez.rb <--counts> <--pages> <--riddle> <--caesar> <--random> <--cat>"
   puts "counts: Show count of all letters in ancient tome"
   puts "pages: Show all pages in ancient tome translated"
   puts "riddle: Show the name riddle"
   puts "caesar: apply caesar cipher"
   puts "random: randomize"
+  puts "cat: concatenate pages vertically"
 end
